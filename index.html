@@ -11,96 +11,57 @@
         <title>WhatsappLike</title>
     </head>
     <body>
-        <header class="half block" hidden>
+        <div id="bg-img"></div>
+        <header>
+            <i class="fas fa-envelope-square"></i>
             <h2>WhatsappLike</h2>
         </header>
 
-        <section id="inscrp" class="block">
+        <section id="inscrp" class="block" hidden>
             <div id="inscrp_c" class="block">
                 <h1>Inscription</h1>
                 <form>
-                    <input type="text" placeholder="Pseudo" />
-                    <input type="email" placeholder="Email" />
+                    <input id="inscrp_inp1" type="text" placeholder="Pseudo" />
+                    <input id="inscrp_inp2" type="email" placeholder="Email" />
                 </form>
-                <br />
-                <div>
-                    <i class="material-icons" onclick="inscription(document.querySelectorAll('input')[0].value, document.querySelectorAll('input')[1].value)">send</i>
+
+                <div>Already registered ? <a onclick="showConnexPage()">Log in</a></div>
+
+                <div id="inscrp_btn">
+                    <i class="material-icons" onclick="inscription(document.getElementById('inscrp_inp1').value, document.getElementById('inscrp_inp2').value)">send</i>
                 </div>
             </div>
         </section>
 
-        <div id="connex" class="block half border" hidden>
-            <div>
+        <section id="connex" class="block" hidden>
+            <div id="connex_c" class="block">
                 <h1>Connexion</h1>
-            </div>
-            <p>
-                Vous avez recu un lien par mail. Veuillez cliquer sur le lien envoyé à votre adresse email et rentrer l'identifiant qui s'affichera (Exemple: 9bad8a6f93570f49a3e04f5607e465a565c36f62a654c173efed3074ff8a83ab) <br />
-                dans la case ci-dessous:
-            </p>
-            <form><input type="text" placeholder="Identifiant" /></form>
-
-            <br />
-            <button>Valider</button>
-        </div>
-
-        <section id="newC" class="block half" hidden>
-            <section id="newCb" class="block">
-                <p>Veuillez entrer l'adresse email de la personne à ajouter :</p>
-                <div><input type="email" id="mailNc" placeholder="Email" /></div>
-                <div class="send_b"><i class="material-icons">send</i></div>
-            </section>
-        </section>
-
-        <section id="tchat" class="block half" hidden>
-            <div id="left" class="block">
-                <div id="hotbarre" class="all">
-                    <div id="profile" class="half"><i class="fas fa-user-circle"></i></div>
-                    <div id="add_user" class="half" onclick=""><i class="fas fa-user-plus"></i></div>
-                </div>
-
-                <div class="discus" id="style-15">
-                    <div class="discu">
-                        <div id="pp"><i class="fas fa-user-circle"></i></div>
-                        <div id="nom">NIDDAM Benjamin</div>
-                    </div>
-                    <div class="discu">
-                        <div id="pp"><i class="fas fa-user-circle"></i></div>
-                        <div id="nom">MILLOT Manon</div>
-                    </div>
-                    <div class="discu">
-                        <div id="pp"><i class="fas fa-user-circle"></i></div>
-                        <div id="nom">GOUWY Nicolas</div>
-                    </div>
-                    <div class="discu">
-                        <div id="pp"><i class="fas fa-user-circle"></i></div>
-                        <div id="nom">PERONNE Benjamin</div>
-                    </div>
-                </div>
-            </div>
-            <div id="right" class="block">
-                <div id="msg">
-                    <p class="mess left">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex amet sint neque voluptas autem? Officiis aperiam quidem aut, assumenda perferendis sed reiciendis unde facilis natus eaque ratione odio officia accusamus
-                        voluptas eligendi maiores aspernatur quia saepe voluptatibus iusto dolorum. Culpa voluptas voluptatum temporibus possimus tempore perferendis ipsa obcaecati deserunt a.
-                    </p>
-                    <p class="mess right">2em message</p>
-                    <p class="mess left">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem quia officiis quidem? Ratione alias eligendi in veniam maxime dolorem odio inventore doloremque enim, commodi ex, saepe voluptas quam. Vel
-                        quisquam suscipit aut illum, animi autem optio maiores quia molestias accusantium sapiente consequatur architecto provident, unde id repellendus maxime consequuntur quasi.
-                    </p>
-                    <p class="mess right">2em message</p>
-                    <p class="mess left">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem quia officiis quidem? Ratione alias eligendi in veniam maxime dolorem odio inventore doloremque enim, commodi ex, saepe voluptas quam. Vel
-                        quisquam suscipit aut illum, animi autem optio maiores quia molestias accusantium sapiente consequatur architecto provident, unde id repellendus maxime consequuntur quasi.
-                    </p>
-                    <p class="mess right">2em message</p>
-                </div>
-                <div id="send">
-                    <div id="redac"><textarea id="msg_aria" cols="30" rows="5"></textarea></div>
-                    <div class="send_b"><i class="material-icons">send</i></div>
+                <form>
+                    <input id="connex_inp1" type="text" placeholder="ID" />
+                </form>
+                <div id="connex_btn">
+                    <i class="material-icons" onclick="activation(document.getElementById('connex_inp1').value)">send</i>
                 </div>
             </div>
         </section>
+
+        <section id="newC" class="block" hidden>
+            <div id="newC_c" class="block">
+                <h1>New contact</h1>
+
+                Enter the email of the person to add to your contacts
+
+                <form>
+                    <input id="newC_inp1" type="email" placeholder="Email" />
+                </form>
+                <div id="newC_btn">
+                    <i class="material-icons" onclick="addRelation(document.getElementById('newC_inp1').value)">send</i>
+                </div>
+            </div>
+        </section>
+
+        <section id="tchat" class="block"></section>
+        <footer>&copy; 2021 NIDDAM Benjamin</footer>
     </body>
     <script src="whatsapp.js"></script>
 </html>
