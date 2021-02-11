@@ -1,12 +1,12 @@
 const api = "https://trankillprojets.fr/wal/wal.php?";
-const id = "7f3ce10e9240e27e3bedf1495d90b9015eef7becb4a9839a2ced5fa05185cb34";
+const id = "50b4031d019f97efb98c79cbdd92dcce02e872334ef1de330f8f378fa798dd82";
 
 const inscription = (pseudo, email) =>
     fetch(api + "inscription&identite=" + pseudo + "&mail=" + email)
         .then(
             (res) =>
                 setTimeout(() => {
-                    document.getElementById("inscrp").innerHTML += "Un email vous a été envoyé";
+                    document.getElementById("inscrp_c").innerHTML += "An email has been sent to you";
                 }, 100),
 
             setTimeout(() => {
@@ -21,14 +21,13 @@ const activation = (cle_activation) =>
         .then((res) =>
             res.json().then((json) => {
                 document.getElementById("connex").hidden = true;
-                document.getElementById("commandes").hidden = false;
             })
         )
         .catch((err) => console.error("Erreur:", err));
 
 const addRelation = (email) => {
     fetch(api + "lier&identifiant=" + id + "&mail=" + email)
-        .then((res) => res.json().then((json) => console.log(json)))
+        .then((res) => res.json().then((json) => (document.getElementById("newC").hidden = true)))
         .catch((err) => console.error("Erreur:", err));
 };
 
@@ -52,13 +51,20 @@ const readMessage = (id, id_relation) =>
         .then((res) => res.json().then((json) => console.log(json)))
         .catch((err) => console.error("Erreur:", err));
 
-setInterval(() => {
-    // console.clear();
-    getRelations(id)
-        .then((rels) => {
-            for (let rel of rels) {
-                console.log(rel.identite);
-            }
-        })
-        .catch((err) => console.error("Erreur:", err));
-}, 1000);
+// setInterval(() => {
+//     // console.clear();
+//     getRelations(id)
+//         .then((rels) => {
+//             for (let rel of rels) {
+//                 console.log(rel.identite);
+//             }
+//         })
+//         .catch((err) => console.error("Erreur:", err));
+// }, 1000);
+
+function showConnexPage() {
+    setTimeout(() => {
+        document.getElementById("inscrp").hidden = true;
+        document.getElementById("connex").hidden = false;
+    }, 300);
+}
