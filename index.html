@@ -12,45 +12,37 @@
     </head>
     <body>
         <div id="bg-img"></div>
-        <header>
-            <i class="fas fa-envelope-square"></i>
-            <h2>WhatsappLike</h2>
-        </header>
 
-        <section id="inscrp" class="block">
-            <div id="inscrp_c" class="block">
+        <main>
+            <div id="inscrp" class="block">
                 <h1>Inscription</h1>
                 <form>
                     <input id="inscrp_inp1" type="text" placeholder="Pseudo" />
                     <input id="inscrp_inp2" type="email" placeholder="Email" />
                 </form>
-
+                <div id="checkemail">Invalid email</div>
                 <div>Already registered ? <a onclick="showConnexPage()">Log in</a></div>
 
-                <div id="inscrp_btn">
-                    <i class="material-icons" onclick="inscription(document.getElementById('inscrp_inp1').value, document.getElementById('inscrp_inp2').value)">send</i>
-                </div>
+                <i id="inscrp_btn" class="material-icons disabled" onclick="inscription(document.getElementById('inscrp_inp1').value, document.getElementById('inscrp_inp2').value)">send</i>
             </div>
-        </section>
 
-        <section id="connex" class="block" hidden>
-            <div id="connex_c" class="block">
+            <div id="connex" class="block" hidden>
                 <h1>Connexion</h1>
                 <form>
                     <input id="connex_inp1" type="text" placeholder="ID" />
                 </form>
-                <div id="connex_btn">
-                    <i class="material-icons" onclick="activation(document.getElementById('connex_inp1').value)">send</i>
-                </div>
+                <div id="checkconnex">Invalid id</div>
+                <i id="connex_btn" class="material-icons disabled" onclick="activation(document.getElementById('connex_inp1').value)">send</i>
             </div>
-        </section>
 
-        <section id="newC" class="block" hidden>
-            <div id="newC_c" class="block">
+            <div id="contacts" hidden>
+                <div id="contacts_list">test</div>
+                <i id="add_c" onclick="showNewCPage()" class="fas fa-user-plus"></i>
+            </div>
+
+            <div id="newC" class="block" hidden>
                 <h1>New contact</h1>
-
                 Enter the email of the person to add to your contacts
-
                 <form>
                     <input id="newC_inp1" type="email" placeholder="Email" />
                 </form>
@@ -58,9 +50,17 @@
                     <i class="material-icons" onclick="addRelation(document.getElementById('newC_inp1').value)">send</i>
                 </div>
             </div>
-        </section>
 
-        <section id="tchat" class="block"></section>
+            <section id="tchat" class="block"></section>
+        </main>
+
+        <header>
+            <div id="header">
+                <i class="fas fa-envelope-square"></i>
+                <h2>WhatsappLike</h2>
+            </div>
+        </header>
+
         <footer>&copy; 2021 NIDDAM Benjamin</footer>
     </body>
     <script src="whatsapp.js"></script>
