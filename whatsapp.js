@@ -1,6 +1,5 @@
 const api = "https://trankillprojets.fr/wal/wal.php?";
 let id = 0;
-//"50b4031d019f97efb98c79cbdd92dcce02e872334ef1de330f8f378fa798dd82";
 
 const isEmail = (val) => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val);
 
@@ -62,6 +61,7 @@ const activation = (cle_activation) =>
                     id = document.querySelector("#connex_inp1").value;
                     document.getElementById("connex").hidden = true;
                     getRelations(id);
+                    // document.getElementById("locate").innerHTML = "Contacts";
                     document.getElementById("contacts").hidden = false;
                 }
             })
@@ -73,8 +73,8 @@ const addRelation = (email) => {
         .then((res) =>
             res.json().then((json) => {
                 document.getElementById("newC").hidden = true;
-                document.getElementById("contacts_list").setAttribute("style", "filter: brightness(1);");
                 document.getElementById("contacts").hidden = false;
+                getRelations(id);
             })
         )
         .catch((err) => console.error("Erreur:", err));
@@ -90,16 +90,12 @@ const getRelations = (id) =>
                     nc.classList.add("cts");
 
                     let n = document.createElement("span");
-                    n.setAttribute("id", "name");
+                    n.id = c.relation;
                     n.innerHTML = c.identite;
-
-                    let id = document.createElement("span");
-                    id.setAttribute("id", "idrel" + n.innerHTML);
-                    id.innerHTML = c.relation;
-                    id.hidden = true;
+                    n.classList.add("name");
 
                     let pp = document.createElement("div");
-                    pp.setAttribute("id", "pp");
+                    pp.classList.add("pp");
                     pp.innerHTML = '<i class="fas fa-id-badge"></i>';
 
                     let m = document.createElement("i");
@@ -108,10 +104,21 @@ const getRelations = (id) =>
                     m.classList.add("fa-trash-alt");
                     m.onclick = (e) => delContact(id.innerHTML);
 
-                    nc.appendChild(id);
                     nc.appendChild(pp);
                     nc.appendChild(n);
                     nc.appendChild(m);
+                    // console.log(n.innerHTML);
+                    nc.onclick = (e) => {
+                        document.getElementById("back").classList.add("visible");
+                        // console.log(e.target);
+                        // document.getElementById("locate").innerHTML = e.target.innerHTML;
+                        // document.getElementById("more-infos").innerHTML = e.target.id;
+                        document.getElementById("contacts").hidden = true;
+                        document.getElementById("tchat").hidden = false;
+                        // readMessage(e.target.id);
+                        // let i = setInterval(() => readMessage(document.getElementById("more-infos").innerHTML), 500);
+                    };
+
                     document.getElementById("contacts_list").appendChild(nc);
                 }
             })
@@ -120,27 +127,56 @@ const getRelations = (id) =>
 
 const delContact = (idrel) =>
     fetch(api + "delier&identifiant=" + id + "&relation=" + idrel)
-        .then((res) => {
-            console.log(idrel);
-            console.log(res.url);
+        .then((res) =>
             res.json().then((json) => {
                 getRelations(id);
+            })
+        )
+        .catch((err) => console.error("Erreur:", err));
+
+const sendMessage = (id_relation, texte) =>
+    fetch(api + "ecrire&identifiant=" + id + "&relation=" + id_relation + "&message=" + texte)
+        .then((res) => {
+            // console.log(res.url);
+            res.json().then((json) => {
+                // console.log(json);
+                document.getElementById("newmsg_w").innerHTML = "";
+                readMessage(id_relation);
             });
         })
         .catch((err) => console.error("Erreur:", err));
 
-const sendMessage = (id, id_relation, texte) =>
-    fetch(api + "ecrire&identifiant=" + id + "&relation=" + id_relation + "&message=" + texte)
-        .then((res) => res.json().then((json) => console.log(json)))
-        .catch((err) => console.error("Erreur:", err));
-
-const readMessage = (id, id_relation) =>
+const readMessage = (id_relation) =>
     fetch(api + "lire&identifiant=" + id + "&relation=" + id_relation)
-        .then((res) => res.json().then((json) => console.log(json)))
+        .then((res) => {
+            // console.log(res.url);
+            res.json().then((json) => {
+                console.log(json.messages);
+                for (let m of json.messages) {
+                    console.log(m);
+                    let nm = document.createElement("div");
+                    nm.classList.add("left");
+
+                    let o = document.createElement("div");
+                    o.classList.add("owner");
+                    o.innerHTML = m.identite;
+
+                    let msg = document.createElement("div");
+                    msg.classList.add("msg");
+                    msg.innerHTML = m.message;
+
+                    nm.appendChild(o);
+                    nm.appendChild(msg);
+
+                    document.getElementById("messages").appendChild(nm);
+                }
+            });
+        })
         .catch((err) => console.error("Erreur:", err));
 
 function showConnexPage() {
     setTimeout(() => {
+        // document.getElementById("locate").innerHTML = "Connexion";
         document.getElementById("inscrp").hidden = true;
         document.getElementById("connex").hidden = false;
     }, 300);
@@ -151,4 +187,9 @@ function showNewCPage() {
         document.getElementById("newC").hidden = false;
         document.getElementById("newC").focus;
     }, 300);
+}
+
+function showContactsPage() {
+    document.getElementById("tchat").hidden = true;
+    document.getElementById("contacts").hidden = false;
 }
