@@ -208,6 +208,7 @@ function showNewCPage() {
 function showContactsPage() {
     document.getElementById("back").classList.remove("visible3");
     document.getElementById("locate").innerHTML = "Contacts";
+    document.getElementById("more-infos").innerHTML = "";
     document.getElementById("contacts").hidden = false;
     document.getElementById("contacts").classList.remove("invisible");
 }
