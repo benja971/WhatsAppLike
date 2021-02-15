@@ -27,7 +27,7 @@
                 <i id="inscrp_btn" class="material-icons disabled" onclick="inscription(document.getElementById('inscrp_inp1').value, document.getElementById('inscrp_inp2').value)">send</i>
             </div>
 
-            <div id="connex" class="block" hidden>
+            <div id="connex" class="block invisible" hidden>
                 <h1>Connexion</h1>
                 <form>
                     <input id="connex_inp1" type="text" placeholder="ID" />
@@ -38,7 +38,7 @@
 
             <div id="contacts" hidden>
                 <div id="contacts_list"></div>
-                <i id="add_c" onclick="showNewCPage()" class="fas fa-user-plus"></i>
+                <i id="add_c" onclick="showNewCPage()" class="fas fa-user-plus invisible"></i>
             </div>
 
             <div id="newC" class="block" hidden>
@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <div id="tchat" hidden>
+            <div id="tchat" class="invisible2" hidden>
                 <div id="messages"></div>
                 <div id="newmsg">
                     <p id="newmsg_w" contenteditable="true"></p>
@@ -64,8 +64,14 @@
         <header>
             <i id="back" class="fas fa-chevron-left" onclick="showContactsPage()"></i>
             <div id="header">
-                <i class="fas fa-envelope-square"></i>
-                <h2>WhatsappLike</h2>
+                <div id="title">
+                    <i class="fas fa-envelope-square"></i>
+                    <h2>WhatsappLike</h2>
+                </div>
+                <div id="infos">
+                    <div id="locate">Inscription</div>
+                    <span id="more-infos"></div>
+                </div>
             </div>
         </header>
 
@@ -75,12 +81,18 @@
                 <div id="h_text">
                     <h2>WhatsappLike</h2>
                     <div id="infos">
-                        <div id="locate">Inscription</div>
-                        <div id="more-infos"></div>
+
                     </div>
                 </div>
             </div>
         </header> -->
+
+        <section id="test" class="invisible" hidden>
+            <p id="testp">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore modi in aspernatur alias eveniet est porro beatae. Delectus, temporibus velit asperiores et itaque sequi, eligendi error eos accusantium explicabo
+                dignissimos.
+            </p>
+        </section>
 
         <footer>&copy; 2021 NIDDAM Benjamin</footer>
     </body>

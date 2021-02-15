@@ -46,8 +46,7 @@ const inscription = (pseudo, email) =>
                     document.getElementById("inscrp").innerHTML += "An email has been sent to you";
                 }, 100);
                 setTimeout(() => {
-                    document.getElementById("inscrp").hidden = true;
-                    document.getElementById("connex").hidden = false;
+                    showConnexPage();
                 }, 3000);
             }
         })
@@ -59,10 +58,17 @@ const activation = (cle_activation) =>
             res.json().then((json) => {
                 if (!document.querySelector("#connex_btn").classList.contains("disabled")) {
                     id = document.querySelector("#connex_inp1").value;
-                    document.getElementById("connex").hidden = true;
-                    getRelations(id);
-                    // document.getElementById("locate").innerHTML = "Contacts";
+
+                    document.getElementById("connex").classList.add("invisible");
+                    console.log("add invisible to connex");
+
                     document.getElementById("contacts").hidden = false;
+                    setTimeout(() => {
+                        document.getElementById("connex").hidden = true;
+                    }, 500);
+
+                    getRelations(id);
+                    document.getElementById("locate").innerHTML = "Contacts";
                 }
             })
         )
@@ -71,7 +77,7 @@ const activation = (cle_activation) =>
 const addRelation = (email) => {
     fetch(api + "lier&identifiant=" + id + "&mail=" + email)
         .then((res) =>
-            res.json().then((json) => {
+            res.json().then(() => {
                 document.getElementById("newC").hidden = true;
                 document.getElementById("contacts").hidden = false;
                 getRelations(id);
@@ -85,6 +91,7 @@ const getRelations = (id) =>
         .then((res) =>
             res.json().then((json) => {
                 document.getElementById("contacts_list").innerHTML = "";
+                let i = 0;
                 for (let c of json.relations) {
                     let nc = document.createElement("div");
                     nc.classList.add("cts");
@@ -107,19 +114,20 @@ const getRelations = (id) =>
                     nc.appendChild(pp);
                     nc.appendChild(n);
                     nc.appendChild(m);
-                    // console.log(n.innerHTML);
                     nc.onclick = (e) => {
-                        document.getElementById("back").classList.add("visible");
-                        // console.log(e.target);
-                        // document.getElementById("locate").innerHTML = e.target.innerHTML;
-                        // document.getElementById("more-infos").innerHTML = e.target.id;
+                        document.getElementById("back").classList.add("visible3");
+                        document.getElementById("locate").innerHTML = e.target.innerHTML;
+                        document.getElementById("more-infos").innerHTML = e.target.id;
                         document.getElementById("contacts").hidden = true;
+                        document.getElementById("contacts").classList.add("invisible");
                         document.getElementById("tchat").hidden = false;
-                        // readMessage(e.target.id);
-                        // let i = setInterval(() => readMessage(document.getElementById("more-infos").innerHTML), 500);
+                        document.getElementById("tchat").classList.remove("invisible");
+                        readMessage(e.target.id);
+                        let i = setInterval(() => readMessage(document.getElementById("more-infos").innerHTML), 500);
                     };
-
-                    document.getElementById("contacts_list").appendChild(nc);
+                    setTimeout(() => {
+                        document.getElementById("contacts_list").appendChild(nc);
+                    }, 250 * i++);
                 }
             })
         )
@@ -176,9 +184,17 @@ const readMessage = (id_relation) =>
 
 function showConnexPage() {
     setTimeout(() => {
-        // document.getElementById("locate").innerHTML = "Connexion";
-        document.getElementById("inscrp").hidden = true;
-        document.getElementById("connex").hidden = false;
+        document.getElementById("locate").innerHTML = "Connexion";
+
+        document.getElementById("inscrp").classList.add("invisible");
+
+        setTimeout(() => {
+            document.getElementById("inscrp").hidden = true;
+            document.getElementById("connex").hidden = false;
+            setTimeout(() => {
+                document.getElementById("connex").classList.remove("invisible");
+            }, 200);
+        }, 500);
     }, 300);
 }
 function showNewCPage() {
@@ -190,6 +206,8 @@ function showNewCPage() {
 }
 
 function showContactsPage() {
-    document.getElementById("tchat").hidden = true;
+    document.getElementById("back").classList.remove("visible3");
+    document.getElementById("locate").innerHTML = "Contacts";
     document.getElementById("contacts").hidden = false;
+    document.getElementById("contacts").classList.remove("invisible");
 }
