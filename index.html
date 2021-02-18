@@ -15,7 +15,7 @@
         <div id="bg-img"></div>
 
         <main>
-            <div id="inscrp" class="block">
+            <div id="inscrp">
                 <h1>Inscription</h1>
                 <form>
                     <input id="inscrp_inp1" type="text" placeholder="Pseudo" />
@@ -27,7 +27,7 @@
                 <i id="inscrp_btn" class="material-icons disabled" onclick="inscription(document.getElementById('inscrp_inp1').value, document.getElementById('inscrp_inp2').value)">send</i>
             </div>
 
-            <div id="connex" class="block invisible" hidden>
+            <div id="connex" class="invisible" hidden>
                 <h1>Connexion</h1>
                 <form>
                     <input id="connex_inp1" type="text" placeholder="ID" />
@@ -38,26 +38,31 @@
 
             <div id="contacts" hidden>
                 <div id="contacts_list"></div>
-                <i id="add_c" onclick="showNewCPage()" class="fas fa-user-plus invisible"></i>
+                <i id="add_c" onclick="showNewCPage()" class="fas fa-user-plus invisible" hidden></i>
             </div>
 
-            <div id="newC" class="block" hidden>
+            <div id="newC" class="invisible" hidden>
                 <h1>New contact</h1>
                 Enter the email of the person to add to your contacts
                 <form>
                     <input id="newC_inp1" type="email" placeholder="Email" />
                 </form>
-                <div id="newC_btn">
-                    <i class="material-icons" onclick="addRelation(document.getElementById('newC_inp1').value)">send</i>
-                </div>
+                <i id="newC_btn" class="material-icons" onclick="addRelation(document.getElementById('newC_inp1').value)">send</i>
             </div>
 
-            <div id="tchat" class="invisible2" hidden>
+            <div id="tchat" class="invisible" hidden>
                 <div id="messages"></div>
                 <div id="newmsg">
                     <p id="newmsg_w" contenteditable="true"></p>
                     <i id="newmsg_btn" class="material-icons" onclick="sendMessage(document.getElementById('more-infos').innerHTML, document.getElementById('newmsg_w').innerHTML)">send</i>
                 </div>
+            </div>
+
+            <div id="profilepage" class="invisible" hidden>
+                <h2>Profile</h2>
+                <p id="user_id"></p>
+                <p id="user_name"></p>
+                <p id="user_email"></p>
             </div>
         </main>
 
@@ -70,22 +75,11 @@
                 </div>
                 <div id="infos">
                     <div id="locate">Inscription</div>
-                    <span id="more-infos"></div>
+                    <span id="more-infos"></span>
                 </div>
             </div>
+            <i id="profile" class="fas fa-user-alt" onclick=""> </i>
         </header>
-
-        <!-- <header>
-            <div id="header">
-
-                <div id="h_text">
-                    <h2>WhatsappLike</h2>
-                    <div id="infos">
-
-                    </div>
-                </div>
-            </div>
-        </header> -->
 
         <section id="test" class="invisible" hidden>
             <p id="testp">
