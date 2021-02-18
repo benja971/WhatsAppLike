@@ -54,7 +54,7 @@
                 <div id="messages"></div>
                 <div id="newmsg">
                     <p id="newmsg_w" contenteditable="true"></p>
-                    <i id="newmsg_btn" class="material-icons" onclick="sendMessage(document.getElementById('more-infos').innerHTML, document.getElementById('newmsg_w').innerHTML)">send</i>
+                    <i id="newmsg_btn" class="material-icons" onclick="sendMessage(user.id, document.getElementById('more-infos').innerHTML, document.getElementById('newmsg_w').innerHTML)">send</i>
                 </div>
             </div>
 
@@ -78,7 +78,7 @@
                     <span id="more-infos"></span>
                 </div>
             </div>
-            <i id="profile" class="fas fa-user-alt" onclick=""> </i>
+            <i id="profile" class="fas fa-user-alt" onclick="showProfilePage()"> </i>
         </header>
 
         <section id="test" class="invisible" hidden>
