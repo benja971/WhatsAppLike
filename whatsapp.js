@@ -1,14 +1,18 @@
 const api = "https://trankillprojets.fr/wal/wal.php?";
 let user = { id: 0, name: "", email: "" };
+let ints;
 
+if (innerWidth > 640) {
+    document.getElementById("newmsg").hidden = true;
+}
 const isEmail = (val) => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val);
 
 const checkinputsinscrp = () => {
     let isemail = isEmail(document.getElementById("inscrp_inp2").value);
+    let m = document.getElementById("checkemail");
     if (isemail && document.getElementById("inscrp_inp1").value.length > 2) {
         document.getElementById("inscrp_btn").classList.remove("disabled");
-        let m = document.getElementById("checkemail");
-        m.innerHTML = "Email valid";
+        m.innerHTML = "Valid email";
         m.setAttribute("style", "color: green");
     } else if (isemail) {
         let m = document.getElementById("checkemail");
@@ -16,6 +20,8 @@ const checkinputsinscrp = () => {
         m.setAttribute("style", "color: green");
     } else {
         document.getElementById("inscrp_btn").classList.add("disabled");
+        m.innerHTML = "Invalid email";
+        m.setAttribute("style", "color: red");
     }
 };
 
@@ -34,9 +40,18 @@ const checkinputsconnex = () => {
     }
 };
 
+const checkinputsNewC = () => {
+    if (isEmail(document.getElementById("newC_inp1").value)) {
+        document.getElementById("newC_btn").classList.remove("disabled");
+    } else {
+        document.getElementById("inscrp_btn").classList.add("disabled");
+    }
+};
+
 document.getElementById("inscrp_inp1").addEventListener("input", (e) => checkinputsinscrp());
 document.getElementById("inscrp_inp2").addEventListener("input", (e) => checkinputsinscrp());
 document.getElementById("connex_inp1").addEventListener("input", (e) => checkinputsconnex());
+document.getElementById("newC_inp1").addEventListener("input", (e) => checkinputsNewC());
 
 const inscription = (pseudo, email) =>
     fetch(api + "inscription&identite=" + pseudo.trim().replace(" ", "%20") + "&mail=" + email)
@@ -59,6 +74,9 @@ const activation = (cle_activation) =>
                     getRelations(user.id);
                     document.getElementById("profile").classList.add("visible");
                     getParameters(user.id);
+                    if (innerWidth > 640) {
+                        document.getElementById("tchat").hidden = false;
+                    }
                 }
             })
         )
@@ -83,10 +101,13 @@ const addRelation = (id, email) => {
     fetch(api + "lier&identifiant=" + id + "&mail=" + email)
         .then((res) =>
             res.json().then(() => {
-                document.getElementById("newC").classList.add("invisible");
-                setTimeout((document.getElementById("newC").hidden = true), 350);
-                showContactsPage();
-                getRelations(id);
+                if (!document.getElementById("newC_btn").classList.contains("disabled")) {
+                    hideNewCpage();
+                    showContactsPage();
+                    console.log("addR: id:", id);
+                    getRelations(id);
+                    document.getElementById("newC_inp1").value = "";
+                }
             })
         )
         .catch((err) => console.error("Erreur:", err));
@@ -95,9 +116,11 @@ const addRelation = (id, email) => {
 const getRelations = (id) =>
     fetch(api + "relations&identifiant=" + id)
         .then((res) => {
+            console.log(id);
             console.log(res.url);
             res.json().then((json) => {
                 document.getElementById("contacts_list").innerHTML = "";
+                console.log(json.relations);
                 for (let i in json.relations) {
                     let nc = document.createElement("div");
                     nc.classList.add("cts");
@@ -113,9 +136,9 @@ const getRelations = (id) =>
                     pp.classList.add("pp");
 
                     let m = document.createElement("i");
-                    m.setAttribute("id", "del_c");
                     m.classList.add("fas");
                     m.classList.add("fa-trash-alt");
+                    m.classList.add("del_c");
                     m.onclick = (e) => delContact(id, c.relation);
 
                     nc.appendChild(pp);
@@ -123,10 +146,13 @@ const getRelations = (id) =>
                     nc.appendChild(m);
                     nc.onclick = (e) => {
                         showTchatPage(e);
-                        setInterval(() => readMessage(user.id, e.target.id), 333);
+                        ints = setInterval(() => readMessage(user.id, e.target.id), 333);
+                        document.getElementById("newmsg").hidden = false;
+                        document.getElementById("add_c").classList.add("invisible");
                     };
                     setTimeout(() => document.getElementById("contacts_list").appendChild(nc), 120 * i);
                 }
+                console.log(document.getElementById("contacts_list"));
             });
         })
         .catch((err) => console.error("Erreur:", err));
@@ -149,11 +175,9 @@ const sendMessage = (id, id_relation, texte) =>
 const readMessage = (id, id_relation) =>
     fetch(api + "lire&identifiant=" + id + "&relation=" + id_relation)
         .then((res) => {
-            console.log(res.url);
             res.json().then((json) => {
                 for (let m of json.messages) {
                     let nm = document.createElement("div");
-                    console.log(m);
                     if (m.identite == user.name) {
                         nm.classList.add("right");
                     } else {
@@ -171,13 +195,11 @@ const readMessage = (id, id_relation) =>
                     nm.appendChild(o);
                     nm.appendChild(msg);
 
-                    console.log(nm);
                     document.getElementById("messages").appendChild(nm);
                 }
             });
         })
         .catch((err) => {
-            console.log("test");
             console.error("Erreur:", err);
         });
 
@@ -194,29 +216,22 @@ function showConnexPage() {
     }, 300);
 }
 function showNewCPage() {
-    console.log("show new contacts");
     document.getElementById("tchat").hidden = true;
-    setTimeout(() => {
-        document.getElementById("add_c").classList.add("invisible");
-        let contactlist = [...document.querySelectorAll(".cts")];
-        for (let i in contactlist) setTimeout(contactlist[i].classList.add("reverse"), 400 * i);
-        hideContactsPage();
-        document.getElementById("locate").innerHTML = "New contact";
-        console.log(document.getElementById("locate").innerHTML);
-        document.getElementById("newC").hidden = false;
-        setTimeout(() => document.getElementById("newC").classList.remove("invisible"), 500);
-    }, 300);
+    document.getElementById("add_c").classList.add("invisible");
+    hideContactsPage();
+    document.getElementById("locate").innerHTML = "New contact";
+    document.getElementById("newC").hidden = false;
+    setTimeout(() => document.getElementById("newC").classList.remove("invisible"), 500);
 }
 
 function hideNewCpage() {
-    console.log("hide new contact");
-
     document.getElementById("newC").classList.add("invisible");
     setTimeout((document.getElementById("newC").hidden = true), 1000);
 }
 
 function showContactsPage() {
-    console.log("je show les contacts");
+    clearInterval(ints);
+
     hideProfilePage();
     hideNewCpage();
     document.getElementById("contacts").classList.remove("flou");
@@ -236,41 +251,42 @@ function showContactsPage() {
 }
 
 function hideContactsPage() {
-    console.log("hide contacts");
+    document.getElementById("newmsg").hidden = true;
     document.getElementById("contacts").classList.add("flou");
     document.getElementById("back").classList.add("visible");
     document.getElementById("contacts").classList.add("invisible");
     let contactlist = [...document.querySelectorAll(".cts")];
-    for (let i in contactlist) setTimeout(() => contactlist[i].classList.add("reverse"), 300 * i);
-
-    setTimeout(() => (document.getElementById("contacts").hidden = true), 200 * document.querySelectorAll(".cts").length);
+    setTimeout(() => (document.getElementById("contacts").hidden = true), 300 * contactlist.length);
+    for (let i in contactlist) setTimeout(() => contactlist[i].classList.add("reverse"), 320 * i);
     document.getElementById("more-infos").innerHTML = "";
     document.getElementById("add_c").classList.add("invisible");
-    setTimeout(() => (document.getElementById("add_c").hidden = true), 1000);
+    setTimeout((document.getElementById("add_c").hidden = true), 1000);
 }
 
 function showTchatPage(e) {
     let contactlist = [...document.querySelectorAll(".cts")];
     for (let i in contactlist) setTimeout(() => contactlist[i].classList.add("reverse"), 300 * i);
     document.getElementById("back").classList.add("visible");
+    console.log(e.target);
     document.getElementById("locate").innerHTML = e.target.innerHTML;
     document.getElementById("more-infos").innerHTML = e.target.id;
-    document.getElementById("contacts").hidden = true;
-    document.getElementById("contacts").classList.add("invisible");
-    document.getElementById("tchat").hidden = false;
-    document.getElementById("tchat").classList.remove("invisible");
+    if (innerWidth < 641) {
+        document.getElementById("contacts").hidden = true;
+        document.getElementById("contacts").classList.add("invisible");
+        document.getElementById("tchat").hidden = false;
+        document.getElementById("tchat").classList.remove("invisible");
+    }
 }
 
 function showProfilePage() {
-    console.log("show profile page");
-
     document.getElementById("profilepage").hidden = false;
     let contactslist = [...document.querySelectorAll(".cts")];
     document.getElementById("add_c").classList.add("invisible");
 
     for (let i in contactslist) setTimeout(() => contactslist[i].classList.add("reverse"), 300 * i);
-
-    hideContactsPage();
+    if (innerWidth < 641) {
+        hideContactsPage();
+    }
     document.getElementById("profile").classList.remove("visible");
 
     document.getElementById("locate").innerHTML = "Profile";
@@ -278,7 +294,6 @@ function showProfilePage() {
     setTimeout(() => document.getElementById("profilepage").classList.remove("invisible"), 120 * contactslist.length);
 }
 function hideProfilePage() {
-    console.log("hide profile page");
     document.getElementById("profilepage").classList.add("invisible");
     setTimeout(() => {
         document.getElementById("profilepage").hidden = true;

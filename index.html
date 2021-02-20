@@ -5,7 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#023e7d" />
-        <link rel="stylesheet" href="whatsapp.css" />
+        <link rel="stylesheet" media="screen" href="mobile.css" />
+        <link rel="stylesheet" media="screen" href="desktop.css" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
@@ -47,7 +48,7 @@
                 <form>
                     <input id="newC_inp1" type="email" placeholder="Email" />
                 </form>
-                <i id="newC_btn" class="material-icons" onclick="addRelation(document.getElementById('newC_inp1').value)">send</i>
+                <i id="newC_btn" class="material-icons disabled" onclick="addRelation(user.id, document.getElementById('newC_inp1').value)">send</i>
             </div>
 
             <div id="tchat" class="invisible" hidden>
@@ -80,13 +81,6 @@
             </div>
             <i id="profile" class="fas fa-user-alt" onclick="showProfilePage()"> </i>
         </header>
-
-        <section id="test" class="invisible" hidden>
-            <p id="testp">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore modi in aspernatur alias eveniet est porro beatae. Delectus, temporibus velit asperiores et itaque sequi, eligendi error eos accusantium explicabo
-                dignissimos.
-            </p>
-        </section>
 
         <footer>&copy; 2021 NIDDAM Benjamin</footer>
     </body>
