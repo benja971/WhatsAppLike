@@ -24,8 +24,10 @@
                 </form>
                 <div id="checkemail">Invalid email</div>
                 <div>Already registered ? <a onclick="showConnexPage()">Log in</a></div>
-
-                <i id="inscrp_btn" class="material-icons disabled" onclick="inscription(document.getElementById('inscrp_inp1').value, document.getElementById('inscrp_inp2').value)">send</i>
+                <div id="inscp_truc">
+                    <span id="msg_insc">An email will be sent to you</span
+                    ><i id="inscrp_btn" class="material-icons disabled" onclick="inscription(document.getElementById('inscrp_inp1').value, document.getElementById('inscrp_inp2').value)">send</i>
+                </div>
             </div>
 
             <div id="connex" class="invisible" hidden>
@@ -36,7 +38,6 @@
                 <div id="checkconnex">Invalid id</div>
                 <i id="connex_btn" class="material-icons disabled" onclick="activation(document.getElementById('connex_inp1').value)">send</i>
             </div>
-
             <div id="contacts" hidden>
                 <div id="contacts_list"></div>
                 <i id="add_c" onclick="showNewCPage()" class="fas fa-user-plus invisible" hidden></i>

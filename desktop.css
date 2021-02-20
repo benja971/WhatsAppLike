@@ -148,12 +148,22 @@
         width: 100%;
     }
 
+    #inscp_truc {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #msg_insc {
+        margin-top: 10px;
+    }
+
     #inscrp_btn,
     #connex_btn,
     #newC_btn {
         color: white;
         font-size: 25pt;
-        padding-top: 5%;
+        padding-top: 2%;
+        padding-bottom: 2%;
     }
 
     #inscrp a {
@@ -190,6 +200,9 @@
 
     #profile.visible {
         margin-right: 5%;
+    }
+    #back.visible {
+        margin-left: 5%;
     }
 
     #newmsg:not([hidden]) {

@@ -1,10 +1,17 @@
 const api = "https://trankillprojets.fr/wal/wal.php?";
-let user = { id: 0, name: "", email: "" };
-let ints;
+let user = { id: 0, name: "", email: "" },
+    ints,
+    discs = new Map();
 
 if (innerWidth > 640) {
     document.getElementById("newmsg").hidden = true;
 }
+
+setInterval(() => {
+    console.clear();
+    console.log(discs);
+}, 500);
+
 const isEmail = (val) => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val);
 
 const checkinputsinscrp = () => {
@@ -55,17 +62,21 @@ document.getElementById("newC_inp1").addEventListener("input", (e) => checkinput
 
 const inscription = (pseudo, email) =>
     fetch(api + "inscription&identite=" + pseudo.trim().replace(" ", "%20") + "&mail=" + email)
-        .then(() => {
-            if (!document.getElementById("inscrp_btn").classList.contains("disabled")) {
-                setTimeout((document.getElementById("inscrp").innerHTML += "An email has been sent to you"), 100);
-                setTimeout(showConnexPage(), 3000);
-            }
+        .then((res) => {
+            res.json().then(() => {
+                if (!document.getElementById("inscrp_btn").classList.contains("disabled")) {
+                    document.getElementById("msg_insc").innerHTML = "An email has been sent to you";
+                    document.getElementById("inscrp_inp1").value = "";
+                    document.getElementById("inscrp_inp2").value = "";
+                    setTimeout(() => showConnexPage(), 2000);
+                }
+            });
         })
         .catch((err) => console.error("Erreur:", err));
 
 const activation = (cle_activation) =>
     fetch(api + "activation=" + cle_activation)
-        .then((res) =>
+        .then((res) => {
             res.json().then(() => {
                 if (!document.getElementById("connex_btn").classList.contains("disabled")) {
                     user.id = document.getElementById("connex_inp1").value;
@@ -78,13 +89,13 @@ const activation = (cle_activation) =>
                         document.getElementById("tchat").hidden = false;
                     }
                 }
-            })
-        )
+            });
+        })
         .catch((err) => console.error("Erreur:", err));
 
 const getParameters = (id) => {
     fetch(api + "information&identifiant=" + id)
-        .then((res) =>
+        .then((res) => {
             res.json().then((json) => {
                 user.id = json.identifiant;
                 user.name = json.identite;
@@ -92,8 +103,8 @@ const getParameters = (id) => {
                 document.getElementById("user_id").innerHTML = "ID: " + json.identifiant;
                 document.getElementById("user_name").innerHTML = "Name: " + json.identite;
                 document.getElementById("user_email").innerHTML = "Email: " + json.mail;
-            })
-        )
+            });
+        })
         .catch((err) => console.error("Erreur:", err));
 };
 
@@ -104,7 +115,6 @@ const addRelation = (id, email) => {
                 if (!document.getElementById("newC_btn").classList.contains("disabled")) {
                     hideNewCpage();
                     showContactsPage();
-                    console.log("addR: id:", id);
                     getRelations(id);
                     document.getElementById("newC_inp1").value = "";
                 }
@@ -116,11 +126,8 @@ const addRelation = (id, email) => {
 const getRelations = (id) =>
     fetch(api + "relations&identifiant=" + id)
         .then((res) => {
-            console.log(id);
-            console.log(res.url);
             res.json().then((json) => {
                 document.getElementById("contacts_list").innerHTML = "";
-                console.log(json.relations);
                 for (let i in json.relations) {
                     let nc = document.createElement("div");
                     nc.classList.add("cts");
@@ -139,33 +146,44 @@ const getRelations = (id) =>
                     m.classList.add("fas");
                     m.classList.add("fa-trash-alt");
                     m.classList.add("del_c");
-                    m.onclick = (e) => delContact(id, c.relation);
+                    m.onclick = (e) => delContact(id, json.relations[i].relation);
+
+                    if (!discs.has("" + json.relations[i].relation)) {
+                        discs.set("" + json.relations[i].relation, "");
+                        console.log("init", json.relations[i].relation);
+                    }
 
                     nc.appendChild(pp);
                     nc.appendChild(n);
                     nc.appendChild(m);
                     nc.onclick = (e) => {
-                        showTchatPage(e);
-                        ints = setInterval(() => readMessage(user.id, e.target.id), 333);
-                        document.getElementById("newmsg").hidden = false;
-                        document.getElementById("add_c").classList.add("invisible");
+                        if (!e.target.classList.contains("fas")) {
+                            document.getElementById("profile").classList.remove("visible");
+                            document.getElementById("messages").innerHTML = discs.get(e.target.id);
+                            showTchatPage(e);
+                            ints = setInterval(() => readMessage(user.id, e.target.id), 333);
+                            document.getElementById("newmsg").hidden = false;
+                            document.getElementById("add_c").classList.add("invisible");
+                        }
                     };
                     setTimeout(() => document.getElementById("contacts_list").appendChild(nc), 120 * i);
                 }
-                console.log(document.getElementById("contacts_list"));
             });
         })
         .catch((err) => console.error("Erreur:", err));
 
 const delContact = (id, idrel) =>
     fetch(api + "delier&identifiant=" + id + "&relation=" + idrel)
-        .then((res) => res.json().then(() => getRelations(id)))
+        .then((res) => {
+            res.json().then(() => getRelations(id));
+        })
         .catch((err) => console.error("Erreur:", err));
 
 const sendMessage = (id, id_relation, texte) =>
     fetch(api + "ecrire&identifiant=" + id + "&relation=" + id_relation + "&message=" + texte)
         .then((res) =>
             res.json().then(() => {
+                discs.set("" + id_relation, document.getElementById("messages").innerHTML);
                 document.getElementById("newmsg_w").innerHTML = "";
                 readMessage(id, id_relation);
             })
@@ -194,7 +212,7 @@ const readMessage = (id, id_relation) =>
 
                     nm.appendChild(o);
                     nm.appendChild(msg);
-
+                    console.log(document.getElementById("messages").innerHTML);
                     document.getElementById("messages").appendChild(nm);
                 }
             });
@@ -216,6 +234,7 @@ function showConnexPage() {
     }, 300);
 }
 function showNewCPage() {
+    document.getElementById("profile").classList.remove("visible");
     document.getElementById("tchat").hidden = true;
     document.getElementById("add_c").classList.add("invisible");
     hideContactsPage();
@@ -225,12 +244,14 @@ function showNewCPage() {
 }
 
 function hideNewCpage() {
+    document.getElementById("profile").classList.add("visible");
     document.getElementById("newC").classList.add("invisible");
     setTimeout((document.getElementById("newC").hidden = true), 1000);
 }
 
 function showContactsPage() {
     clearInterval(ints);
+    document.getElementById("profile").classList.add("visible");
 
     hideProfilePage();
     hideNewCpage();
@@ -246,6 +267,7 @@ function showContactsPage() {
         document.getElementById("locate").innerHTML = "Contacts";
         document.getElementById("more-infos").innerHTML = "";
         document.getElementById("add_c").hidden = false;
+        document.getElementById("newmsg").hidden = true;
         setTimeout(document.getElementById("add_c").classList.remove("invisible"), 500);
     }, 200);
 }
@@ -267,12 +289,12 @@ function showTchatPage(e) {
     let contactlist = [...document.querySelectorAll(".cts")];
     for (let i in contactlist) setTimeout(() => contactlist[i].classList.add("reverse"), 300 * i);
     document.getElementById("back").classList.add("visible");
-    console.log(e.target);
     document.getElementById("locate").innerHTML = e.target.innerHTML;
     document.getElementById("more-infos").innerHTML = e.target.id;
     if (innerWidth < 641) {
         document.getElementById("contacts").hidden = true;
         document.getElementById("contacts").classList.add("invisible");
+        document.getElementById("newmsg").hidden = false;
         document.getElementById("tchat").hidden = false;
         document.getElementById("tchat").classList.remove("invisible");
     }
