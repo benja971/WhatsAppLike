@@ -5,8 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#023e7d" />
-        <link rel="stylesheet" media="screen" href="mobile.css" />
-        <link rel="stylesheet" media="screen" href="desktop.css" />
+        <link rel="stylesheet" media="screen" href="CSS/all.css" />
+        <link rel="stylesheet" media="screen" href="CSS/mobile2.css" />
+        <link rel="stylesheet" media="screen" href="CSS/desktop2.css" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
@@ -30,7 +31,7 @@
                 </div>
             </div>
 
-            <div id="connex" class="invisible" hidden>
+            <div id="connex" class="hide_at_right">
                 <h1>Connexion</h1>
                 <form>
                     <input id="connex_inp1" type="text" placeholder="ID" />
@@ -38,12 +39,21 @@
                 <div id="checkconnex">Invalid id</div>
                 <i id="connex_btn" class="material-icons disabled" onclick="activation(document.getElementById('connex_inp1').value)">send</i>
             </div>
-            <div id="contacts" hidden>
+
+            <div id="contacts" class="hide_at_right">
                 <div id="contacts_list"></div>
-                <i id="add_c" onclick="showNewCPage()" class="fas fa-user-plus invisible" hidden></i>
+                <i id="add_c" onclick="showNewCPage()" class="fas fa-user-plus hide_at_right"></i>
             </div>
 
-            <div id="newC" class="invisible" hidden>
+            <div id="tchat" class="hide_at_right">
+                <div id="messages"></div>
+                <div id="newmsg" class="mobile">
+                    <p id="newmsg_w" contenteditable="true"></p>
+                    <i id="newmsg_btn" class="material-icons" onclick="sendMessage(user.id, document.getElementById('more-infos').innerHTML, document.getElementById('newmsg_w').innerHTML)">send</i>
+                </div>
+            </div>
+
+            <div id="newC" class="hide_at_right">
                 <h1>New contact</h1>
                 Enter the email of the person to add to your contacts
                 <form>
@@ -52,19 +62,11 @@
                 <i id="newC_btn" class="material-icons disabled" onclick="addRelation(user.id, document.getElementById('newC_inp1').value)">send</i>
             </div>
 
-            <div id="tchat" class="invisible" hidden>
-                <div id="messages"></div>
-                <div id="newmsg">
-                    <p id="newmsg_w" contenteditable="true"></p>
-                    <i id="newmsg_btn" class="material-icons" onclick="sendMessage(user.id, document.getElementById('more-infos').innerHTML, document.getElementById('newmsg_w').innerHTML)">send</i>
-                </div>
-            </div>
-
-            <div id="profilepage" class="invisible" hidden>
+            <div id="profilepage" class="hide_at_right">
                 <h2>Profile</h2>
-                <p id="user_id"></p>
-                <p id="user_name"></p>
-                <p id="user_email"></p>
+                <span id="user_id"></span>
+                <span id="user_name"></span>
+                <span id="user_email"></span>
             </div>
         </main>
 

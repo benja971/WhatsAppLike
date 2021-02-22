@@ -1,0 +1,26 @@
+@media screen and (min-width: 641px) {
+    #contacts {
+        flex: 1;
+        background-color: #023e7d;
+    }
+
+    #tchat {
+        flex: 2;
+    }
+
+    #add_c {
+        position: fixed;
+        left: 20vw;
+        top: 93px;
+        background-color: #7d8597;
+        text-align: center;
+        border-radius: 50%;
+        color: white;
+        font-size: 20pt;
+        padding-top: 15px;
+        height: 60px;
+        width: 60px;
+        margin-left: 0%;
+        transition: margin 0.5s;
+    }
+}

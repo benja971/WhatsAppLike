@@ -50,7 +50,7 @@
     }
 
     #back {
-        font-size: 2.2em;
+        font-size: 25pt;
         margin-left: -25px;
         transition: margin 0.3s;
     }
@@ -69,8 +69,8 @@
     }
 
     #title i {
-        margin-right: 20px;
-        font-size: 2em;
+        font-size: 25pt;
+        margin-right: 5%;
     }
 
     #infos {
@@ -84,7 +84,7 @@
 
     #profile {
         margin-right: -15%;
-        font-size: 2em;
+        font-size: 25pt;
         transition: margin 0.3s;
     }
 
@@ -129,13 +129,10 @@
         text-align: center;
         transform: translate(-50%, -50%);
         min-width: 300px;
-        opacity: 1;
-        transition: opacity 0.5s;
+        transition: margin 0.5s;
         word-wrap: break-word;
-    }
-
-    #profilepage.invisible {
-        opacity: 0;
+        margin-left: 0vw;
+        transition: margin 0.5s;
     }
 
     #checkemail,
@@ -212,12 +209,12 @@
         text-align: center;
         border-radius: 50%;
         color: white;
-        font-size: 25px;
+        font-size: 20pt;
         padding-top: 15px;
         height: 60px;
         width: 60px;
-        opacity: 1;
-        transition: opacity 0.5s;
+        margin-left: 0%;
+        transition: margin 0.5s;
     }
 
     #tchat:not([hidden]) {
@@ -247,11 +244,14 @@
         margin-left: 5%;
     }
 
+    #profilepage.invisible,
+    #contacts.invisible,
     #inscrp.invisible,
     #connex.invisible,
     #newC.invisible,
-    #add_c.invisible {
-        opacity: 0;
+    #add_c.invisible,
+    #add_c {
+        margin-left: 120%;
     }
 
     #back.visible {
@@ -265,9 +265,7 @@
     .cts {
         display: flex;
         border: black solid 2px;
-        /* padding: 3%; */
         align-items: center;
-
         color: white;
         background-color: #33415c;
         width: 100vw;
@@ -277,10 +275,9 @@
     .del_c {
         left: 90%;
         color: white;
-        font-size: 15px;
+        font-size: 13pt;
         margin-right: 5%;
         flex: end;
-        /* padding: 3%; */
     }
 
     .reverse {
@@ -289,7 +286,7 @@
     }
 
     .pp {
-        font-size: 35px;
+        font-size: 28pt;
         padding: 0px 20px 0px 0px;
         margin-left: 4%;
     }
