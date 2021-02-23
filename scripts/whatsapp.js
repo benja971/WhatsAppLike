@@ -1,7 +1,6 @@
 const api = "https://trankillprojets.fr/wal/wal.php?";
-let user = { id: 0, name: "", email: "" },
-    ints,
-    discs = new Map();
+let user = { id: 0, name: "", email: "", relations: [] },
+    ints;
 
 const isEmail = (val) => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val);
 
@@ -112,6 +111,10 @@ const getRelations = (id) =>
         .then((json) => {
             document.getElementById("contacts_list").innerHTML = "";
             for (let i in json.relations) {
+                if (!user.relations[json.relations[i].relation]) {
+                    user.relations[json.relations[i].relation] = [];
+                    readMessages(id, json.relations[i].relation);
+                }
                 let nc = document.createElement("div");
                 nc.classList.add("cts");
 
@@ -136,6 +139,7 @@ const getRelations = (id) =>
                 nc.appendChild(m);
                 nc.onclick = (e) => {
                     if (!e.target.classList.contains("fas")) {
+                        loadMessages(e.target.id);
                         showTchatPage(e);
                     }
                 };
@@ -144,49 +148,73 @@ const getRelations = (id) =>
         })
         .catch((err) => console.error("Erreur:", err));
 
-const delContact = (id, idrel) =>
-    fetch(api + "delier&identifiant=" + id + "&relation=" + idrel)
+const delContact = (id, id_relation) =>
+    fetch(api + "delier&identifiant=" + id + "&relation=" + id_relation)
         .then((res) => res.json())
         .then(() => getRelations(id))
         .catch((err) => console.error("Erreur:", err));
 
 const sendMessage = (id, id_relation, texte) =>
     fetch(api + "ecrire&identifiant=" + id + "&relation=" + id_relation + "&message=" + texte)
-        .then((res) => {
-            console.log(res.url);
-            res.json();
-        })
-        .then(() => {
-            document.getElementById("newmsg_w").innerHTML = "";
-            readMessage(id, id_relation);
-        })
+        .then((res) => res.json())
+        .then((json) => (document.getElementById("newmsg_w").innerHTML = ""))
         .catch((err) => console.error("Erreur:", err));
 
-const readMessage = (id, id_relation) =>
+const readMessages = (id, id_relation) =>
     fetch(api + "lire&identifiant=" + id + "&relation=" + id_relation)
         .then((res) => res.json())
         .then((json) => {
             for (let m of json.messages) {
-                let nm = document.createElement("div");
-                if (m.identite == user.name) nm.classList.add("right");
-                else nm.classList.add("left");
-
-                let o = document.createElement("div");
-                o.classList.add("owner");
-                o.innerHTML = m.identite;
-
-                let msg = document.createElement("div");
-                msg.classList.add("msg");
-                msg.innerHTML = m.message;
-
-                nm.appendChild(o);
-                nm.appendChild(msg);
-                document.getElementById("messages").appendChild(nm);
+                user.relations[id_relation].push(m);
+                createMessage(m);
             }
+            readMessages(id, id_relation);
         })
         .catch((err) => {
             console.error("Erreur:", err);
         });
+// createMessage(message);
+
+const createMessage = (m) => {
+    let nmc = document.createElement("div");
+    nmc.classList.add("msg-container");
+
+    let nm = document.createElement("div");
+    nm.classList.add("msg");
+
+    if (m.identite == user.name) {
+        nmc.classList.add("right");
+        nm.classList.add("msg-right");
+    } else {
+        nmc.classList.add("left");
+        nm.classList.add("msg-left");
+    }
+    let o = document.createElement("div");
+    o.classList.add("owner");
+    o.innerHTML = m.identite;
+
+    let msg = document.createElement("div");
+    msg.classList.add("text");
+    msg.innerHTML = m.message;
+
+    nm.appendChild(o);
+    nm.appendChild(msg);
+    nmc.appendChild(nm);
+    console.log(document.getElementById("messages").appendChild(nmc));
+    document.getElementById("messages").appendChild(nmc);
+    console.log("create message after appendchild: ", document.getElementById("messages"));
+};
+
+const loadMessages = (id_relation) => {
+    document.getElementById("messages").innerHTML = "";
+    console.log("load messages begin: ", document.getElementById("messages"));
+
+    for (let m of user.relations[id_relation]) {
+        console.log("message: ", m);
+        createMessage(m);
+    }
+    console.log("load messages end: ", document.getElementById("messages"));
+};
 
 function showConnexPage() {
     document.getElementById("locate").innerHTML = "Connexion";
@@ -196,6 +224,7 @@ function showConnexPage() {
 
 function showContactsPage() {
     okforclick();
+    document.getElementById("messages").innerHTML = "";
     document.getElementById("profilepage").classList.add("hide_at_right");
     document.getElementById("newC").classList.add("hide_at_right");
     document.getElementById("locate").innerHTML = "Contacts";
@@ -205,6 +234,7 @@ function showContactsPage() {
     document.getElementById("newmsg").classList.add("hide_at_right");
     document.getElementById("contacts").classList.remove("hide_at_right");
     document.getElementById("add_c").classList.remove("hide_at_right");
+    document.getElementById("add_c").classList.remove("mobile");
     document.getElementById("tchat").classList.remove("hide_at_right");
 }
 
@@ -216,6 +246,8 @@ function showNewCPage() {
 }
 
 function showTchatPage(e) {
+    // document.getElementById("messages").innerHTML = "";
+    document.getElementById("add_c").classList.add("mobile");
     document.getElementById("locate").innerHTML = e.target.innerHTML;
     document.getElementById("more-infos").innerHTML = e.target.id;
     document.getElementById("back").classList.add("visible");
@@ -255,7 +287,6 @@ function dontclick() {
     document.getElementById("tchat").setAttribute("style", "pointer-events: none");
 }
 function okforclick() {
-    console.log(document.getElementById("contacts"), document.getElementById("tchat"));
     document.getElementById("contacts").setAttribute("style", "pointer-events: all");
     document.getElementById("tchat").setAttribute("style", "pointer-events: all");
 }

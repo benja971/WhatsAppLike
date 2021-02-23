@@ -18,8 +18,9 @@ header:not([hidden]) {
     display: flex;
     color: white;
     position: fixed;
-    height: 65pt;
+    height: 10vh;
     width: 100%;
+    font-size: 2.5vh;
     background-color: #001233;
     box-shadow: 0px 0px 10px 0px black;
     align-items: center;
@@ -30,7 +31,7 @@ main {
     width: 100%;
     height: 100%;
     position: absolute;
-    padding-top: 65pt;
+    padding-top: 10vh;
     overflow: hidden;
     display: flex;
 }
@@ -38,12 +39,13 @@ main {
 footer {
     position: fixed;
     width: 100%;
-    height: 4%;
+    height: 4vh;
     bottom: 0px;
-    padding-top: 1%;
     color: white;
     text-align: center;
+    padding-top: 0.5vh;
     background-color: #001233;
+    font-size: 3vh;
 }
 
 h1,
@@ -67,14 +69,14 @@ h2 {
 }
 
 #back {
-    font-size: 25pt;
+    font-size: 5vh;
     margin-left: -25px;
     transition: margin 0.3s;
 }
 
 #profile {
     margin-right: -15%;
-    font-size: 25pt;
+    font-size: 4vh;
     transition: margin 0.3s;
 }
 
@@ -86,7 +88,7 @@ h2 {
 
 #title i {
     margin-right: 20px;
-    font-size: 2em;
+    font-size: 4vh;
 }
 
 #infos {
@@ -105,7 +107,7 @@ h2 {
     left: 50vw;
     top: 50vh;
     position: absolute;
-    font-size: 15pt;
+    font-size: 3vh;
     width: 70vw;
     background-color: #023e7d;
     align-items: center;
@@ -138,7 +140,7 @@ h2 {
     color: #0d1b2a;
     min-width: 3px;
     height: 4vh;
-    width: 50vw;
+    width: 80%;
     margin: 2%;
     margin-top: 3vh;
     padding-left: 10px;
@@ -183,6 +185,8 @@ h2 {
 }
 #contacts_list {
     width: 100%;
+    height: 100%;
+    padding-bottom: 4%;
     overflow: auto;
 }
 
@@ -202,6 +206,7 @@ h2 {
     justify-content: center;
     background-color: #33415c;
     z-index: 0;
+    margin-bottom: 2.5%;
 }
 
 #newmsg_w {
@@ -260,19 +265,19 @@ h2 {
 .del_c {
     color: white;
     margin-right: 5%;
-    font-size: 1.5em;
+    font-size: 3vh;
     margin-top: 4%;
 }
 
 .pp {
     margin-left: 4%;
     margin-right: 4%;
-    margin-top: 2%;
-    font-size: 2.5em;
+    margin-top: 2.5%;
+    font-size: 5vh;
 }
 
 .name {
-    font-size: 1.2em;
+    font-size: 2.2vh;
     display: inline-block;
     line-height: 1.2;
     height: 100%;
@@ -286,6 +291,41 @@ h2 {
 
 .disabled {
     opacity: 0.4;
+}
+
+.msg-container {
+    width: 100%;
+    display: flex;
+}
+
+.msg {
+    max-width: 70%;
+    padding: 10px;
+    background-color: #7d8597;
+    margin: 5% 5% 0% 5%;
+}
+
+.msg-left {
+    border-radius: 0px 15px 15px 15px;
+}
+
+.msg-right {
+    border-radius: 15px 0px 15px 15px;
+}
+
+.right {
+    justify-content: flex-end;
+}
+
+.owner {
+    text-decoration: underline;
+    font-size: 2.5vh;
+}
+
+.text {
+    margin-top: 5%;
+    text-align: left;
+    font-size: 11pt;
 }
 
 @keyframes slide-in {
