@@ -96,7 +96,6 @@ const addRelation = (id, email) => {
         .then((res) => res.json())
         .then(() => {
             if (!document.getElementById("newC_btn").classList.contains("disabled")) {
-                hideNewCpage();
                 showContactsPage();
                 getRelations(id);
                 document.getElementById("newC_inp1").value = "";
@@ -246,7 +245,6 @@ function showNewCPage() {
 }
 
 function showTchatPage(e) {
-    // document.getElementById("messages").innerHTML = "";
     document.getElementById("add_c").classList.add("mobile");
     document.getElementById("locate").innerHTML = e.target.innerHTML;
     document.getElementById("more-infos").innerHTML = e.target.id;
