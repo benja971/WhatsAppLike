@@ -1,0 +1,102 @@
+/* Affichages spécifiques sur mobile */
+@media screen and (max-width: 640px) {
+    #header {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-left: 65px;
+    }
+
+    #contacts {
+        width: 100%;
+    }
+
+    #tchat {
+        margin-left: -200%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #contacts_list {
+        width: 100%;
+    }
+
+    #add_c {
+        position: fixed;
+        left: 70vw;
+        top: 13vh;
+        background-color: #5c677d;
+        text-align: center;
+        border-radius: 50%;
+        color: white;
+        font-size: 3vh;
+        padding-top: 2.2vh;
+        padding-left: 0.5vh;
+        height: 8vh;
+        width: 8vh;
+        margin-left: 0%;
+        transition: margin 0.5s;
+    }
+
+    /* ---------- classes ---------- */
+
+    #contacts.mobile {
+        margin-left: 100%;
+    }
+
+    #add_c.mobile {
+        margin-left: -100%;
+    }
+
+    #tchat.mobile {
+        display: none;
+    }
+
+    .reverse {
+        animation: 0.8s slide-out;
+        margin-left: 100%;
+    }
+}
+
+/* Affichages spécifiques sur ordinateur */
+@media screen and (min-width: 641px) {
+    #header {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-left: 35%;
+    }
+
+    #inscrp,
+    #connex,
+    #newC {
+        max-width: 30vw;
+        min-width: 500px;
+    }
+
+    #contacts {
+        flex: 1;
+        background-color: #023e7d;
+    }
+
+    #tchat {
+        flex: 2;
+    }
+
+    #add_c {
+        position: fixed;
+        left: 20vw;
+        top: 15vh;
+        background-color: #5c677d;
+        text-align: center;
+        border-radius: 50%;
+        color: white;
+        font-size: 20pt;
+        padding-top: 15px;
+        height: 60px;
+        width: 60px;
+        margin-left: 0%;
+        transition: margin 0.5s;
+    }
+}

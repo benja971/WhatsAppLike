@@ -5,8 +5,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#023e7d" />
-        <link rel="stylesheet" href="whatsapp.css" />
+        <link rel="shortcut icon" href="./Icons/rounded_icon_x512.png" type="image/x-icon" />
+        <link rel="stylesheet" media="screen" href="CSS/all.css" />
+        <link rel="stylesheet" media="screen" href="CSS/media_queries.css" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous" />
+        <link rel="manifest" href="/manifest.webmanifest" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
         <title>WhatsappLike</title>
@@ -15,7 +18,7 @@
         <div id="bg-img"></div>
 
         <main>
-            <div id="inscrp" class="block">
+            <div id="inscrp">
                 <h1>Inscription</h1>
                 <form>
                     <input id="inscrp_inp1" type="text" placeholder="Pseudo" />
@@ -23,11 +26,13 @@
                 </form>
                 <div id="checkemail">Invalid email</div>
                 <div>Already registered ? <a onclick="showConnexPage()">Log in</a></div>
-
-                <i id="inscrp_btn" class="material-icons disabled" onclick="inscription(document.getElementById('inscrp_inp1').value, document.getElementById('inscrp_inp2').value)">send</i>
+                <div id="inscp_truc">
+                    <span id="msg_insc">An email will be sent to you</span
+                    ><i id="inscrp_btn" class="material-icons disabled" onclick="inscription(document.getElementById('inscrp_inp1').value, document.getElementById('inscrp_inp2').value)">send</i>
+                </div>
             </div>
 
-            <div id="connex" class="block" hidden>
+            <div id="connex" class="hide_at_right">
                 <h1>Connexion</h1>
                 <form>
                     <input id="connex_inp1" type="text" placeholder="ID" />
@@ -36,53 +41,52 @@
                 <i id="connex_btn" class="material-icons disabled" onclick="activation(document.getElementById('connex_inp1').value)">send</i>
             </div>
 
-            <div id="contacts" hidden>
+            <div id="contacts" class="hide_at_right">
                 <div id="contacts_list"></div>
-                <i id="add_c" onclick="showNewCPage()" class="fas fa-user-plus"></i>
+                <i id="add_c" onclick="showNewCPage()" class="fas fa-user-plus hide_at_right"></i>
             </div>
 
-            <div id="newC" class="block" hidden>
+            <div id="tchat" class="hide_at_right">
+                <div id="messages"></div>
+                <div id="newmsg" class="mobile">
+                    <p id="newmsg_w" contenteditable="true"></p>
+                    <i id="newmsg_btn" class="material-icons" onclick="sendMessage(user.id, document.getElementById('more-infos').innerHTML, document.getElementById('newmsg_w').innerHTML)">send</i>
+                </div>
+            </div>
+
+            <div id="newC" class="hide_at_right">
                 <h1>New contact</h1>
                 Enter the email of the person to add to your contacts
                 <form>
                     <input id="newC_inp1" type="email" placeholder="Email" />
                 </form>
-                <div id="newC_btn">
-                    <i class="material-icons" onclick="addRelation(document.getElementById('newC_inp1').value)">send</i>
-                </div>
+                <i id="newC_btn" class="material-icons disabled" onclick="addRelation(user.id, document.getElementById('newC_inp1').value)">send</i>
             </div>
 
-            <div id="tchat" hidden>
-                <div id="messages"></div>
-                <div id="newmsg">
-                    <p id="newmsg_w" contenteditable="true"></p>
-                    <i id="newmsg_btn" class="material-icons" onclick="sendMessage(document.getElementById('more-infos').innerHTML, document.getElementById('newmsg_w').innerHTML)">send</i>
-                </div>
+            <div id="profilepage" class="hide_at_right">
+                <h2>Profile</h2>
+                <span id="user_id"></span>
+                <span id="user_name"></span>
+                <span id="user_email"></span>
             </div>
         </main>
 
         <header>
             <i id="back" class="fas fa-chevron-left" onclick="showContactsPage()"></i>
             <div id="header">
-                <i class="fas fa-envelope-square"></i>
-                <h2>WhatsappLike</h2>
-            </div>
-        </header>
-
-        <!-- <header>
-            <div id="header">
-
-                <div id="h_text">
+                <div id="title">
+                    <i class="fas fa-envelope-square"></i>
                     <h2>WhatsappLike</h2>
-                    <div id="infos">
-                        <div id="locate">Inscription</div>
-                        <div id="more-infos"></div>
-                    </div>
+                </div>
+                <div id="infos">
+                    <span id="locate">Inscription</span>
+                    <span id="more-infos"></span>
                 </div>
             </div>
-        </header> -->
+            <i id="profile" class="fas fa-user-alt" onclick="showProfilePage()"> </i>
+        </header>
 
         <footer>&copy; 2021 NIDDAM Benjamin</footer>
     </body>
-    <script src="whatsapp.js"></script>
+    <script src="scripts/whatsapp.js"></script>
 </html>

@@ -1,0 +1,344 @@
+* {
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+    user-select: none;
+    outline: none;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    background-color: #001233;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header:not([hidden]) {
+    display: flex;
+    color: white;
+    position: absolute;
+    height: 64px;
+    width: 100%;
+    background-color: #001233;
+    box-shadow: 0px 0px 10px 0px black;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding-top: 65px;
+    overflow: hidden;
+    display: flex;
+}
+
+footer {
+    position: fixed;
+    width: 100%;
+    height: 20px;
+    bottom: 0px;
+    color: white;
+    text-align: center;
+    padding-top: 0.5vh;
+    background-color: #001233;
+    font-size: 15px;
+}
+
+h1,
+h2 {
+    color: white;
+}
+
+#bg-img {
+    width: 100%;
+    height: 100%;
+    background-image: url("https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png");
+    position: absolute;
+    opacity: 0.4;
+}
+
+#back {
+    font-size: 30px;
+    margin-left: -25px;
+    transition: margin 0.3s;
+}
+
+#profile {
+    margin-right: -15%;
+    font-size: 30px;
+    transition: margin 0.3s;
+}
+
+#title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#title i {
+    margin-right: 20px;
+    font-size: 30px;
+}
+
+#infos {
+    display: flex;
+    margin-left: 10%;
+}
+
+#more-infos {
+    margin-left: 5%;
+}
+
+#inscrp,
+#connex,
+#newC,
+#profilepage {
+    left: 50vw;
+    top: 50vh;
+    position: absolute;
+    font-size: 13pt;
+    width: 70vw;
+    background-color: #023e7d;
+    align-items: center;
+    border-radius: 5vh;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    min-width: 300px;
+    margin-left: 0%;
+    transition: margin 0.5s;
+    padding: 15px;
+}
+
+#inscp_truc {
+    display: flex;
+    flex-direction: column;
+}
+
+#msg_insc {
+    margin-top: 15px;
+}
+
+#checkemail,
+#checkconnex {
+    color: red;
+}
+
+#inscrp input,
+#connex input,
+#newC input {
+    background-color: #979dac;
+    color: #0d1b2a;
+    min-width: 3px;
+    height: 4vh;
+    width: 80%;
+    margin: 2%;
+    margin-top: 3vh;
+    padding-left: 10px;
+    font-size: 12pt;
+}
+
+#connex input,
+#newC input {
+    border-radius: 15px;
+    box-shadow: black 3px 3px 0px 0px;
+    min-height: 25px;
+}
+
+#inscrp_inp1 {
+    border-radius: 2.5vw 0px 0px 2.5vw;
+}
+#inscrp_inp2 {
+    border-radius: 0px 2.5vw 2.5vw 0px;
+}
+
+#inscrp form,
+#inscrp form,
+#newC form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+#inscrp_btn,
+#connex_btn,
+#newC_btn {
+    color: white;
+    font-size: 25pt;
+    padding-top: 5%;
+}
+
+#inscrp a {
+    text-decoration: underline;
+}
+
+#contacts {
+    z-index: 0;
+}
+#contacts_list {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 4%;
+    overflow: auto;
+}
+
+#tchat {
+    display: flex;
+    flex-direction: column;
+}
+
+#messages {
+    flex: 1;
+    overflow: auto;
+}
+
+#newmsg:not(#tchat.mobile, [hidden]) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: #33415c;
+    z-index: 0;
+}
+
+#newmsg_w {
+    background-color: #979dac;
+    width: 70%;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    padding: 5px;
+}
+
+#newmsg_btn {
+    color: #979dac;
+    margin-top: 22px;
+    margin-left: 5%;
+}
+
+#profilepage {
+    display: flex;
+    min-width: 380;
+    flex-direction: column;
+    padding: 10px;
+    word-break: break-all;
+}
+
+/* ---------- classes ---------- */
+
+#inscrp.hide_at_right,
+#connex.hide_at_right,
+#profilepage.hide_at_right,
+#contacts.hide_at_right,
+#add_c.hide_at_right,
+#newC.hide_at_right,
+#tchat.hide_at_right {
+    margin-left: 120%;
+}
+
+#back.visible {
+    margin-left: 5%;
+}
+
+#profile.visible {
+    margin-right: 5%;
+}
+
+.cts {
+    display: flex;
+    border: black solid 2px;
+    color: white;
+    background-color: #33415c;
+    width: 100%;
+    height: 10vh;
+    animation: 0.8s slide-in;
+}
+
+.del_c {
+    color: white;
+    margin-right: 5%;
+    font-size: 3vh;
+    margin-top: 4%;
+}
+
+.pp {
+    margin-left: 4%;
+    margin-right: 4%;
+    margin-top: 2.5%;
+    font-size: 5vh;
+}
+
+.name {
+    font-size: 2.2vh;
+    display: inline-block;
+    line-height: 1.2;
+    height: 100%;
+    flex: 1;
+    padding-top: 4%;
+}
+
+.cts:hover {
+    background-color: #7d8597;
+}
+
+.disabled {
+    opacity: 0.4;
+}
+
+.msg-container {
+    width: 100%;
+    display: flex;
+}
+
+.msg {
+    max-width: 70%;
+    padding: 10px;
+    background-color: #7d8597;
+    margin: 5% 5% 0% 5%;
+}
+
+.msg-left {
+    border-radius: 0px 15px 15px 15px;
+}
+
+.msg-right {
+    border-radius: 15px 0px 15px 15px;
+}
+
+.right {
+    justify-content: flex-end;
+}
+
+.owner {
+    text-decoration: underline;
+    font-size: 2.5vh;
+}
+
+.text {
+    margin-top: 5%;
+    text-align: left;
+    font-size: 11pt;
+}
+
+@keyframes slide-in {
+    from {
+        margin-left: 100%;
+    }
+
+    to {
+        margin-left: 0%;
+    }
+}
+
+@keyframes slide-out {
+    from {
+        margin-left: 0%;
+    }
+
+    to {
+        margin-left: 100%;
+    }
+}
